@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    container_name: flask_app
+    ports:
+      - "9000:9000"
+    environment:
+      - MONGO_URI = mongodb://mongo:27017/StudentList
+    restart: always
+    networks:
+      - app_network
+
+  mongo:
+    image: mongo:6.0
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    restart: always
+    networks:
+      - app_network
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
+
+networks:
+  app_network:
